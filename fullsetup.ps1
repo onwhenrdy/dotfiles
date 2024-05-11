@@ -12,5 +12,10 @@ foreach ($file in $setupFiles) {
     & $file.FullName
 }
 
+# Set Environment Variable
+[Environment]::SetEnvironmentVariable("DOTFILES", "$scriptPath", [EnvironmentVariableTarget]::User)
+
 # Output to confirm completion
+Write-Host "Set Evnironment Variable: DOTFILES"
 Write-Host "All setup scripts have been executed."
+Read-Host -Prompt "Press Enter to exit"

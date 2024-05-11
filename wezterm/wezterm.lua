@@ -1,12 +1,13 @@
--- Pull in the wezterm API
+
 local wezterm = require 'wezterm'
+local dotfiles = os.getenv("DOTFILES") or ""
 
 local config = {}
 if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
 
 
@@ -25,10 +26,10 @@ config.default_cursor_style = 'BlinkingBar'
 config.background = {
     {
         source = {
-            File = "D:/Wallpaper/Lost-in-Translation1.jpg",
+            File = dotfiles .. "/art/bg1.jpg",
         },
-        opacity = 0.85,
-        hsb = { brightness = 0.1 },
+        opacity = 0.99,
+        hsb = { brightness = 0.2 },
     },
 }
 
@@ -42,17 +43,16 @@ local act = wezterm.action
 config.keys = {
    -- shortcuts for directory navigation
    {
-    key = 'S',
-    mods = 'CTRL|SHIFT',
+    key = 'p',
+    mods = 'CTRL',
     action = wezterm.action_callback(function(window, pane)
-      -- Here you can dynamically construct a longer list if needed
-
       local home = wezterm.home_dir
       local workspaces = {
         { id = home, label = 'Home' },
-        { id = home .. '/work', label = 'Work' },
-        { id = home .. '/personal', label = 'Personal' },
-        { id = home .. '/.config', label = 'Config' },
+        { id = home .. '/GithubRepos', label = 'Git' },
+        { id = home .. '/HgRepos', label = 'Hg' },
+        { id = home .. '/OneDrive - Universität des Saarlandes/Dokumente/Projekte', label = 'Projects' },
+        { id = home .. '/Downloads', label = 'Downloads' },
       }
 
       window:perform_action(
@@ -103,6 +103,26 @@ config.keys = {
     key = "w", -- You can change this key to whatever you prefer
     mods = "CTRL",
     action = wezterm.action.CloseCurrentPane { confirm = true },
+  },
+  {
+    key = 'LeftArrow',
+    mods = 'CTRL|SHIFT',
+    action = act.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CTRL|SHIFT',
+    action = act.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'UpArrow',
+    mods = 'CTRL|SHIFT',
+    action = act.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'DownArrow',
+    mods = 'CTRL|SHIFT',
+    action = act.ActivatePaneDirection 'Down',
   },
 }
 
