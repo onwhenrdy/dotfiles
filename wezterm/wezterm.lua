@@ -13,14 +13,29 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.default_prog = { 'pwsh.exe', '-NoLogo' }
 
-config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font('JetBrains Mono')
 config.font_size =11
+
+local colors = wezterm.color.get_default_colors() 
+colors.foreground = "black"
+colors.split = '#BAB69C'
+colors.brights = {
+    'ffc107',
+    'ffc107',
+    'ffc107',
+    'ffc107',
+    'ffc107',
+    'ffc107',
+    'ffc107',
+    'ffc107',
+  }
+colors.cursor_bg = 'ffc107'
+colors.cursor_border = 'ffc107'
+config.colors = colors
 
 -- scrollbar
 config.scrollback_lines = 3000
 config.enable_scroll_bar = true
-config.default_cursor_style = 'BlinkingBar'
 
 -- background image
 config.background = {
