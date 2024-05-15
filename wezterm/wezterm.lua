@@ -16,22 +16,23 @@ config.default_prog = { 'pwsh.exe', '-NoLogo' }
 config.font = wezterm.font('JetBrains Mono')
 config.font_size =11
 
-local colors = wezterm.color.get_default_colors() 
-colors.foreground = "black"
-colors.split = '#BAB69C'
-colors.brights = {
-    'ffc107',
-    'ffc107',
-    'ffc107',
-    'ffc107',
-    'ffc107',
-    'ffc107',
-    'ffc107',
-    'ffc107',
+local myColors = wezterm.color.get_default_colors() 
+myColors.foreground = "black"
+myColors.split = '#BAB69C'
+myColors.brights = {
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
+    '#ffc107',
   }
-colors.cursor_bg = 'ffc107'
-colors.cursor_border = 'ffc107'
-config.colors = colors
+myColors.foreground  = 'ffc107'
+myColors.cursor_bg = 'ffc107'
+myColors.cursor_border = 'ffc107'
+config.colors = myColors
 
 -- scrollbar
 config.scrollback_lines = 3000
@@ -43,8 +44,8 @@ config.background = {
         source = {
             File = dotfiles .. "/art/bg1.jpg",
         },
-        opacity = 0.99,
-        hsb = { brightness = 0.2 },
+        opacity = 0.9,
+        hsb = { brightness = 0.1 },
     },
 }
 
@@ -95,7 +96,7 @@ config.keys = {
           title = 'Choose Workspace',
           choices = workspaces,
           fuzzy = true,
-          fuzzy_description = 'Fuzzy find and/or make a workspace',
+          fuzzy_description = 'Deez Workspaces',
         },
         pane
       )
@@ -112,6 +113,16 @@ config.keys = {
     key = "d",
     mods = "ALT",
     action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
+  },
+  {
+    key = 'd',
+    mods = 'CTRL|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+      wezterm.action.Multiple({
+        wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+      }),
+    }),
   },
   -- Close the current pane
   {
