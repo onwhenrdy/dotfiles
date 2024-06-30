@@ -26,6 +26,9 @@ local refactor = {
   inlineChat = function()
     vscall("inlineChat.start")
   end,
+  showDefinitionHover = function()
+    vscall("editor.action.showDefinitionPreviewHover")
+  end,
 }
 
 local bookmark = {
@@ -135,18 +138,18 @@ local editor = {
   verticalSplit = function()
     vscall("workbench.action.splitEditorDown")
   end,
-  focusLeft = function()
-    vscall("workbench.action.focusLeftGroup")
+  focusNextGroup = function()
+    vscall("workbench.action.focusNextGroup")
   end,
-  focusRight = function()
-    vscall("workbench.action.focusRightGroup")
+  focusPreviousGroup = function()
+    vscall("workbench.action.focusPreviousGroup")
   end,
-  focusAbove = function()
-    vscall("workbench.action.focusAboveGroup")
+  focusNext = function()
+    vscall("workbench.action.nextEditor")
   end,
-  focusBelow = function()
-    vscall("workbench.action.focusBelowGroup")
-  end,
+  focusPrevious = function()
+    vscall("workbench.action.previousEditor")
+  end, 
 }
 
 -- Mapping
@@ -156,30 +159,34 @@ vim.g.mapleader = " "
 
 -- nav
 nv_keymap('<leader>h', '^')
-nv_keymap('<leader>l', '$')  
+nv_keymap('<leader>l', 'g_')  
 nv_keymap('<leader>a', '%')
 
 nx_keymap('j', 'gj')
 nx_keymap('k', 'gk')
 
+keymap({ 'n', 'v'}, 'p', 'P', opts)
+
 keymap('n', 'U', '<C-r>')
-keymap('n', '<Esc>', ':nohlsearch<cr>')
-
-keymap("n", "<C-d>", "<C-d>zz")
-keymap("n", "<C-u>", "<C-u>zz")
-
 keymap({ 'n' }, "<S-h>", ":bprevious<CR>", opts)
 keymap({ 'n' }, "<S-l>", ":bnext<CR>", opts)
+
+keymap('n', '<Esc>', ':nohlsearch<cr>', term_opts)
+
+keymap("n", "<C-d>", "<C-d>zz", opts)
+keymap("n", "<C-u>", "<C-u>zz", opts)
 
 -- Only use in VSCode
 if vim.g.vscode then
   keymap({ 'n' }, "<leader>nn", editor.split)
   keymap({ 'n' }, "<leader>nv", editor.verticalSplit)
 
-  keymap("n", "<C-h>", editor.focusLeft)
-  keymap("n", "<C-j>", editor.focusBelow)
-  keymap("n", "<C-k>", editor.focusAbove)
-  keymap("n", "<C-l>", editor.focusRight)
+  keymap({ 'n' }, "gh", refactor.showDefinitionHover) 
+
+  keymap("n", "<C-l>", editor.focusNextGroup)
+  keymap("n", "<C-h>", editor.focusPreviousGroup)
+  keymap("n", "<S-l>", editor.focusNext)
+  keymap("n", "<S-h>", editor.focusPrevious)
 
   keymap({ 'n' }, "<leader>rr", refactor.rename)
   keymap({ 'n', "v" }, "<leader>ri", refactor.inlineChat)
@@ -190,11 +197,11 @@ if vim.g.vscode then
   keymap({ 'n' }, "<leader>,,", bookmark.previous)
   keymap({ 'n' }, "<leader>mc", bookmark.clear)
 
-  keymap({ 'n' }, "<leader>i", workspace.toggleSidebar)
+  keymap({ 'n' }, "<leader>ii", workspace.toggleSidebar)
   keymap({ 'n', 'v' }, "<leader> ", workspace.showCommands)
-  keymap({ 'n' }, "<leader>t", workspace.tree)
-  keymap({ 'n' }, "<leader>w", workspace.closeEditor)
-  keymap({ 'n' }, "<leader>W", workspace.closeOtherEditor)
+  keymap({ 'n' }, "<leader>tt", workspace.tree)
+  keymap({ 'n' }, "<leader>ww", workspace.closeEditor)
+  keymap({ 'n' }, "<leader>WW", workspace.closeOtherEditor)
 
   keymap({ 'n' }, "<leader>ff", file.find)
   keymap({ 'n' }, "<leader>fn", file.new)
@@ -207,7 +214,6 @@ if vim.g.vscode then
   keymap({ 'n' }, "<leader>sp", search.project)
   keymap({ 'n' }, "<leader>st", search.text)
 
-  keymap({ 'n' }, "<leader>z", fold.toggle)
   keymap({ 'n' }, "<leader>zz", fold.toggle)
   keymap({ 'n' }, "<leader>za", fold.all)
   keymap({ 'n' }, "<leader>zo", fold.openAll)
