@@ -90,7 +90,7 @@ local workspace = {
 
 local comment = {
   selected = function()
-    vscallRange("editor.action.commentLine", vim.fn.line("v"), vim.fn.line("."), 1)
+    vim.fn.VSCodeNotifyRange("editor.action.commentLine", vim.fn.line("v"), vim.fn.line("."), 1)
   end
 }
 
@@ -128,8 +128,31 @@ local indentation = {
   end,
 }
 
+local editor = {
+  split = function()
+    vscall("workbench.action.splitEditor")
+  end,
+  verticalSplit = function()
+    vscall("workbench.action.splitEditorDown")
+  end,
+  focusLeft = function()
+    vscall("workbench.action.focusLeftGroup")
+  end,
+  focusRight = function()
+    vscall("workbench.action.focusRightGroup")
+  end,
+  focusAbove = function()
+    vscall("workbench.action.focusAboveGroup")
+  end,
+  focusBelow = function()
+    vscall("workbench.action.focusBelowGroup")
+  end,
+}
+
 -- Mapping
-vim.g.mapleader = ' ' 
+--keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+--vim.g.maplocalleader = " "
 
 -- nav
 nv_keymap('<leader>h', '^')
@@ -150,6 +173,14 @@ keymap({ 'n' }, "<S-l>", ":bnext<CR>", opts)
 
 -- Only use in VSCode
 if vim.g.vscode then
+  keymap({ 'n' }, "<leader>nn", editor.split)
+  keymap({ 'n' }, "<leader>nv", editor.verticalSplit)
+
+  keymap("n", "<C-h>", editor.focusLeft)
+  keymap("n", "<C-j>", editor.focusBelow)
+  keymap("n", "<C-k>", editor.focusAbove)
+  keymap("n", "<C-l>", editor.focusRight)
+
   keymap({ 'n' }, "<leader>rr", refactor.rename)
   keymap({ 'n', "v" }, "<leader>ri", refactor.inlineChat)
 
