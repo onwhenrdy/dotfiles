@@ -1,0 +1,25 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[user]
+	name = Dominik Selzer
+	email = dominik.selzer@uni-saarland.de
+[credential]
+	helper = manager
+[core]
+	longpaths = true
+	autocrlf = true
+	editor = code --wait
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+      tool = vscode
+[mergetool "vscode"]
+# Comment: Original way before three-way merge shown commented out
+#    cmd = code --wait $MERGED
+# Comment: For "Three-way merge"
+	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
