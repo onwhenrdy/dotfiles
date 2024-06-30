@@ -4,7 +4,35 @@ vim.opt.ignorecase = true
 -- disable "ignorecase" option if the search pattern contains upper case characters
 vim.opt.smartcase = true
 
---Key mappings
+--keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Plugins --------------------------------------------------------------------
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  spec = {
+    {
+      "easymotion/vim-easymotion",
+      enabled = true,
+      config = function()
+        vim.g.EasyMotion_smartcase = 1
+        vim.g.EasyMotion_startofline = 0
+        vim.g.EasyMotion_use_smartsign_us = 1
+      end,
+    }
+  },
+  checker = { enabled = true },
+})
+
+-- Key Mapping functions -------------------------------------------------------
 local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 
@@ -152,11 +180,7 @@ local editor = {
   end, 
 }
 
--- Mapping
---keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
---vim.g.maplocalleader = " "
-
+-- Mappings --------------------------------------------------------------------
 -- nav
 nv_keymap('<leader>h', '^')
 nv_keymap('<leader>l', 'g_')  
@@ -168,18 +192,17 @@ nx_keymap('k', 'gk')
 keymap({ 'n', 'v'}, 'p', 'P', opts)
 
 keymap('n', 'U', '<C-r>')
-keymap({ 'n' }, "<S-h>", ":bprevious<CR>", opts)
-keymap({ 'n' }, "<S-l>", ":bnext<CR>", opts)
 
 keymap('n', '<Esc>', ':nohlsearch<cr>', term_opts)
+keymap('n', 's', '<Plug>(easymotion-s2)', opts)
 
 keymap("n", "<C-d>", "<C-d>zz", opts)
 keymap("n", "<C-u>", "<C-u>zz", opts)
 
--- Only use in VSCode
+-- Only use in VSCode ----------------------------------------------------------
 if vim.g.vscode then
-  keymap({ 'n' }, "<leader>nn", editor.split)
-  keymap({ 'n' }, "<leader>nv", editor.verticalSplit)
+  keymap({ 'n' }, "<aeader>nn", editor.split)
+  keymap({ 'n' }, "<seader>nv", editor.verticalSplit)
 
   keymap({ 'n' }, "gh", refactor.showDefinitionHover) 
 
@@ -198,7 +221,7 @@ if vim.g.vscode then
   keymap({ 'n' }, "<leader>mc", bookmark.clear)
 
   keymap({ 'n' }, "<leader>ii", workspace.toggleSidebar)
-  keymap({ 'n', 'v' }, "<leader> ", workspace.showCommands)
+  keymap({ 'n', 'v' }, "<leader>pp", workspace.showCommands)
   keymap({ 'n' }, "<leader>tt", workspace.tree)
   keymap({ 'n' }, "<leader>ww", workspace.closeEditor)
   keymap({ 'n' }, "<leader>WW", workspace.closeOtherEditor)
