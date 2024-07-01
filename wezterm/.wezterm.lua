@@ -12,7 +12,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.default_prog = { "pwsh.exe", "-NoLogo" }
 
 config.font = wezterm.font("JetBrains Mono")
-config.font_size = 11
+config.font_size = 12
 
 local myColors = wezterm.color.get_default_colors()
 myColors.foreground = "black"
@@ -42,7 +42,7 @@ config.background = {
 		source = {
 			File = dotfiles .. "/art/bg1.jpg",
 		},
-		opacity = 0.9,
+		opacity = 0.98,
 		hsb = { brightness = 0.15 },
 	},
 }
@@ -54,49 +54,6 @@ config.initial_cols = 180
 -- key bindings
 local act = wezterm.action
 config.keys = {
-	-- shortcuts for directory navigation
-	{
-		key = "p",
-		mods = "CTRL",
-		action = wezterm.action_callback(function(window, pane)
-			local home = wezterm.home_dir
-			local workspaces = {
-				{ id = home, label = "Home" },
-				{ id = home .. "/GithubRepos", label = "Git" },
-				{ id = home .. "/HgRepos", label = "Hg" },
-				{ id = home .. "/OneDrive - Universität des Saarlandes/Dokumente/Projekte", label = "Projects" },
-				{ id = home .. "/Downloads", label = "Downloads" },
-			}
-
-			window:perform_action(
-				act.InputSelector({
-					action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
-						if not id and not label then
-							wezterm.log_info("cancelled")
-						else
-							wezterm.log_info("id = " .. id)
-							wezterm.log_info("label = " .. label)
-							inner_window:perform_action(
-								act.SwitchToWorkspace({
-									name = label,
-									spawn = {
-										label = "Workspace: " .. label,
-										cwd = id,
-									},
-								}),
-								inner_pane
-							)
-						end
-					end),
-					title = "Choose Workspace",
-					choices = workspaces,
-					fuzzy = true,
-					fuzzy_description = "Deez Workspaces",
-				}),
-				pane
-			)
-		end),
-	},
 	-- Split the current pane horizontally (new pane below)
 	{
 		key = "d",

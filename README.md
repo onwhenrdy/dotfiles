@@ -1,18 +1,23 @@
-# My dotfiles and setup instructions
+# My dotfiles and setup files
 
-![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg) ![GitHub](https://img.shields.io/badge/dotfiles-blue)
+![stability-mature](https://img.shields.io/badge/stability-mature-00800.svg) ![GitHub](https://img.shields.io/badge/dotfiles-blue)
 
 __Oh no, not another dotfiles repo!__
 
-## Setup SymLinks
+## Setup Scripts
 
-Setup for the creation of symlinks: `setup.ps1` (powershell; __not finised yet__).
+- Setup for the creation of symlinks: `setup_symlinks.ps1`
+  - __Caution:__ This script will delete existing symlinks/files that already exist.
+  - Adds `scripts` folder to `PATH`.
+
+- Font installation: `install_fonts.ps1`
+  - Installs fonts from the `Fonts` folder for the current user (not system wide).
+  - Does not overwrite existing fonts.
 
 ## Install Software
 
-For `R` install required version.
-
 ```powershell
+winget install -e --id GitHub.cli
 winget install -e --id Git.Git
 winget install Neovim.Neovim
 winget install JanDeDobbeleer.OhMyPosh -s winget
@@ -42,9 +47,7 @@ Just pics.
 ### git
 
 - My `.gitconfig` file.
-- Must be placed as `~/.gitconfig`.
-- Install `git` via `winget install -e --id Git.Git` (powershell).
-- Update `git` via `winget upgrade Git.Git` (powershell).
+- Must be placed in `~`.
 
 ### linter
 
@@ -56,55 +59,46 @@ Just pics.
 - My neovim settings (single file `init.lua`).
 - Has keybindings for the noevim vscode plugin as well.
 - Must be placed in `~\AppData\Local\nvim`.
-- Website: <https://neovim.io/>.
-- Install via `winget install Neovim.Neovim` (powershell).
-- Update via `winget upgrade Neovim.Neovim` (powershell).
 
-### psh
+### psh (PowerShell)
 
 - `dose_profile.ps1`: Powershell profile settings
-- Must be places as `~\..\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
-- `...` if `OneDrive` is used.
+- Must be placed as `~\..\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
 
 ### omp
 
-- `omp`: Oh my posh settings
-- Install via `winget install JanDeDobbeleer.OhMyPosh -s winget` (powershell)
-- Update `winget upgrade JanDeDobbeleer.OhMyPosh -s winget`
-- Website: <https://ohmyposh.dev/>
+- `dose.omp.json`: Oh my posh settings
 
 ### radian
 
 - `.radian_profile`: Radian settings
 - Must be placed as `~/.radian_profile`.
-- Install via `pip install radian`.
-- Update via `pip install radian --upgrade`.
 
-### WezTerm
+### wezterm
 
 - `wezterm.lua`: WezTerm settings
 - Must be placed as `~/wezterm.lua`.
-- Download WezTerm from <https://wezfurlong.org/wezterm/>.
-- Install via `winget install wez.wezterm`.
-- Update via `winget upgrade wez.wezterm`.
 
-### R
+### r
 
 - `.Rprofile`: R settings
 - Must be placed as `~/.Rprofile`.
+- Set env __`R_LIBS_USER = C:/Users/XXX/R/%v`__ to have a seprate library for each version!!
 
-### Fonts
+### fonts
 
-- `JetBrainsMono`: JetBrains Mono font (see <https://www.jetbrains.com/lp/mono/>).
-- `FiraCode`: Fira Code font (see <https://github.com/tonsky/FiraCode>).
-- `HackNerdFont`: Hack Nerd Font (see <https://www.nerdfonts.com/font-downloads>).
+- `JetBrainsMono`: JetBrains Mono ([Link](https://www.jetbrains.com/lp/mono/))
+- `FiraCode`: Fira Code ([Link](https://github.com/tonsky/FiraCode/))
+- `HackNerdFont`: Hack Nerd Font ([Link](https://www.nerdfonts.com/font-downloads/))
 
 ### scripts
 
-- `CreateProject.ps1`: Powerscript to create a private Github repository and clone it to your local machine into a folder, than open in `code`.
--`gh` cli must be installed and configured (<https://cli.github.com/>).
+#### `CreateProject.ps1`
+
+- Powerscript to create a private Github repository and clone it to your local machine into a folder, than open in `code`.
+- `gh` cli must be installed and configured (<https://cli.github.com/>).
 - Must change `$rootDir` settings to your root project directory.
-- Script folder should be in `PATH`
+- Script folder should be in `PATH` (`setup_symlinks.ps1` will handle that).
 - Usage: `CreateProject.ps1 <project-name>`
 
 ### vscode

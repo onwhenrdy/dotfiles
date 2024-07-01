@@ -201,8 +201,8 @@ keymap('n', 's', '<Plug>(easymotion-s2)', opts)
 
 -- Only use in VSCode ----------------------------------------------------------
 if vim.g.vscode then
-  keymap({ 'n' }, "<aeader>nn", editor.split)
-  keymap({ 'n' }, "<seader>nv", editor.verticalSplit)
+  keymap({ 'n' }, "<leader>nn", editor.split)
+  keymap({ 'n' }, "<leader>nv", editor.verticalSplit)
 
   keymap({ 'n' }, "gh", refactor.showDefinitionHover) 
 
