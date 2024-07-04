@@ -10,8 +10,8 @@
           "leading_diamond": "\ue0b6",
           "properties": {
             "folder_separator_icon": " / ",
-            "style": "agnoster_short",
-            "max_depth": 2
+            "style": "folder",
+            "max_depth": 1
           },
           "style": "diamond",
           "template": " \ue5ff {{ .Path }} ",

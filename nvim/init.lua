@@ -1,12 +1,19 @@
-vim.opt.clipboard = "unnamedplus"
--- search ignoring case
-vim.opt.ignorecase = true
--- disable "ignorecase" option if the search pattern contains upper case characters
-vim.opt.smartcase = true
-
---keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+vim.opt.clipboard = "unnamedplus"
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.updatetime = 300
+vim.opt.undofile = true
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 -- Plugins --------------------------------------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -27,6 +34,43 @@ require("lazy").setup({
         vim.g.EasyMotion_startofline = 0
         vim.g.EasyMotion_use_smartsign_us = 1
       end,
+    },
+    -- {
+    --   "nvim-treesitter/nvim-treesitter",
+    --   build = ":TSUpdate",
+    --   config = function () 
+    --     local configs = require("nvim-treesitter.configs")
+
+    --     configs.setup({
+    --         ensure_installed = {"r"},
+    --         sync_install = false,
+    --         highlight = { enable = true },
+    --         indent = { enable = true },  
+    --       })
+    --   end
+    -- },
+    -- {
+    --   "nvim-treesitter/nvim-treesitter-textobjects",
+    --   after = "nvim-treesitter",
+    --   config = function()
+    --     require("nvim-treesitter.configs").setup({
+    --       textobjects = {
+    --         select = {
+    --           enable = true,
+    --           lookahead = true,
+    --           keymaps = {
+    --             ["af"] = "@function.outer",
+    --             ["if"] = "@function.inner"
+    --           },
+    --         },
+    --       },
+    --     })
+    --   end
+    -- },
+    {
+      'nvim-telescope/telescope.nvim', tag = '0.1.8',
+      enabled = not vim.g.vscode,
+      dependencies = { 'nvim-lua/plenary.nvim' },
     }
   },
   checker = { enabled = true },

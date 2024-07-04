@@ -19,7 +19,6 @@
 [merge]
       tool = vscode
 [mergetool "vscode"]
-# Comment: Original way before three-way merge shown commented out
-#    cmd = code --wait $MERGED
-# Comment: For "Three-way merge"
 	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+[alias]
+    undo = reset --soft HEAD^
