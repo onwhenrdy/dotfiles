@@ -27,9 +27,9 @@ myColors.brights = {
 	"#ffc107",
 	"#ffc107",
 }
-myColors.foreground = "ffc107"
-myColors.cursor_bg = "ffc107"
-myColors.cursor_border = "ffc107"
+myColors.foreground = "#ffc107"
+myColors.cursor_bg = "#d67a10"
+myColors.cursor_border = "#ffc107"
 config.colors = myColors
 
 -- scrollbar
@@ -43,7 +43,7 @@ config.background = {
 			File = dotfiles .. "/art/bg1.jpg",
 		},
 		opacity = 0.98,
-		hsb = { brightness = 0.15 },
+		hsb = { brightness = 0.10 },
 	},
 }
 

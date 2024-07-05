@@ -5,8 +5,8 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "#315e83",
-          "foreground": "#a8a8a8",
+          "background": "#d67a10",
+          "foreground": "#202020",            
           "leading_diamond": "\ue0b6",
           "properties": {
             "folder_separator_icon": " / ",
@@ -20,7 +20,7 @@
         },
         {
           "background": "#54c9a5",
-          "foreground": "#a8a8a8",
+          "foreground": "#110f0f",
           "powerline_symbol": "\ue0b0",
           "properties": {
             "fetch_stash_count": true,
