@@ -20,8 +20,8 @@ $files = @(
         Destination = Join-Path -Path (Join-Path -Path $([environment]::GetFolderPath("MyDocuments")) -ChildPath "PowerShell") -ChildPath "Microsoft.PowerShell_profile.ps1"
     },
     @{
-        Source      = Join-Path -Path $scriptLocation -ChildPath "omp/dose.omp.json"
-        Destination = Join-Path -Path $HOME -ChildPath "dose.omp.json"
+        Source      = Join-Path -Path $scriptLocation -ChildPath "starship/starship.toml"
+        Destination = Join-Path -Path $HOME -ChildPath ".config/starship.toml"
     },
     @{
         Source      = Join-Path -Path $scriptLocation -ChildPath "git/.gitconfig"

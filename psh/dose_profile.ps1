@@ -8,7 +8,5 @@ function wt { wezterm start --cwd "." & }
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }
 
-# OMP
-$ompPath = "$HOME/dose.omp.json"
-$ompPath = Resolve-Path $ompPath
-oh-my-posh init pwsh --config "$ompPath" | Invoke-Expression
+# Starship
+Invoke-Expression (&starship init powershell)

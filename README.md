@@ -20,7 +20,7 @@ __Oh no, not another dotfiles repo!__
 winget install -e --id GitHub.cli
 winget install -e --id Git.Git
 winget install Neovim.Neovim
-winget install JanDeDobbeleer.OhMyPosh -s winget
+winget install --id Starship.Starship
 winget install wez.wezterm
 winget install -e --id Microsoft.VisualStudioCode
 winget install -e --id RProject.R -v "4.3.1"
@@ -65,9 +65,10 @@ Just pics.
 - `dose_profile.ps1`: Powershell profile settings
 - Must be placed as `~\..\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
 
-### omp
+### starship
 
-- `dose.omp.json`: Oh my posh settings
+- `starship.toml`: Starship settings
+- Must be placed in `~\.config`.
 
 ### radian
 
