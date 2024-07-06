@@ -229,6 +229,7 @@ local editor = {
 nv_keymap('<leader>h', '^')
 nv_keymap('<leader>l', 'g_')  
 nv_keymap('<leader>a', '%')
+keymap('v', '<leader>p', '\"_dP')
 
 nx_keymap('j', 'gj')
 nx_keymap('k', 'gk')
@@ -265,7 +266,7 @@ if vim.g.vscode then
   keymap({ 'n' }, "<leader>mc", bookmark.clear)
 
   keymap({ 'n' }, "<leader>ii", workspace.toggleSidebar)
-  keymap({ 'n', 'v' }, "<leader>pp", workspace.showCommands)
+  keymap({ 'n' }, "<leader>pp", workspace.showCommands)
   keymap({ 'n' }, "<leader>tt", workspace.tree)
   keymap({ 'n' }, "<leader>ww", workspace.closeEditor)
   keymap({ 'n' }, "<leader>WW", workspace.closeOtherEditor)

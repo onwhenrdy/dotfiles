@@ -22,6 +22,8 @@ winget install -e --id Git.Git
 winget install Neovim.Neovim
 winget install --id Starship.Starship
 winget install wez.wezterm
+winget instll fzf
+winget install ajeetdsouza.zoxide
 winget install -e --id Microsoft.VisualStudioCode
 winget install -e --id RProject.R -v "4.3.1"
 winget install -e --id RProject.Rtools -v "4.3.5958"
