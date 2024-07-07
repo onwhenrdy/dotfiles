@@ -30,7 +30,7 @@ myColors.brights = {
 myColors.foreground = "#ffc107"
 myColors.cursor_bg = "#ffc107"
 myColors.cursor_border = "#ffc107"
-config.colors = myColors
+--config.colors = myColors
 
 config.default_cursor_style = "BlinkingUnderline"
 config.cursor_blink_rate = 500
