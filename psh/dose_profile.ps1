@@ -11,15 +11,15 @@ function killc { conda deactivate }
 
 
 # Starship
-function Invoke-Starship-TransientFunction {
-    &starship module character
-}
+#function Invoke-Starship-TransientFunction {
+#    &starship module character
+#}
 Invoke-Expression (&starship init powershell)
-Enable-TransientPrompt
+#Enable-TransientPrompt
 
 # Zoxide
 Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 
 # Predictions
-Set-PSReadLineOption -PredictionViewStyle ListView
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin  
+#Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -PredictionSource None #HistoryAndPlugin  
