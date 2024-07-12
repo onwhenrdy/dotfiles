@@ -22,5 +22,5 @@ Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 
 # Predictions
-#Set-PSReadLineOption -PredictionViewStyle ListView
-Set-PSReadLineOption -PredictionSource None #HistoryAndPlugin  
+Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin  
