@@ -3,6 +3,7 @@ Set-Alias tt tree
 Set-Alias vim nvim
 Set-Alias vi nvim
 Set-Alias ll ls
+Set-Alias lg lazygit
 
 function wt { wezterm start --cwd "." & }
 
