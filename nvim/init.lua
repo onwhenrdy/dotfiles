@@ -241,6 +241,8 @@ keymap('n', 'U', '<C-r>')
 keymap('n', '<Esc>', ':nohlsearch<cr>', term_opts)
 keymap('n', 's', '<Plug>(easymotion-s2)', opts)
 
+keymap('n', '<leader>aa', 'ggVG', opts)
+
 --keymap("n", "<C-d>", "<C-d>zz", opts)
 --keymap("n", "<C-u>", "<C-u>zz", opts)
 

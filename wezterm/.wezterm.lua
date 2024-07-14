@@ -12,7 +12,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.default_prog = { "pwsh.exe", "-NoLogo" }
 
 config.font = wezterm.font("JetBrains Mono")
-config.font_size = 12
+config.font_size = 11
 
 local myColors = wezterm.color.get_default_colors()
 myColors.foreground = "black"
@@ -27,7 +27,7 @@ myColors.brights = {
 	"#ffc107",
 	"#ffc107",
 }
-myColors.foreground = "#ffc107"
+myColors.foreground = "#ffffff"
 myColors.cursor_bg = "#ffc107"
 myColors.cursor_border = "#ffc107"
 config.colors = myColors

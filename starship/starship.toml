@@ -2,31 +2,28 @@
 
 format = """
 [](color_orange)\
-$username\
-[](bg:color_yellow fg:color_orange)\
 $directory\
-[](fg:color_yellow bg:color_aqua)\
+[](fg:color_orange bg:color_aqua)\
 $git_branch\
 $git_status\
+$hg_branch\
 [](fg:color_aqua bg:color_blue)\
 $c\
 $rust\
 $golang\
+$rlang\
 $nodejs\
-$php\
-$java\
-$kotlin\
-$haskell\
 $python\
 [](fg:color_blue bg:color_bg3)\
-$docker_context\
-$conda\
+[](fg:color_bg3 bg:color_bg3)\
+$memory_usage\
 [](fg:color_bg3 bg:color_bg1)\
-$time\
-[ ](fg:color_bg1)\
+[](color_bg1)\
+$cmd_duration
 $line_break$character"""
 
 palette = 'gruvbox_dark'
+command_timeout = 1500
 
 [palettes.gruvbox_dark]
 color_fg0 = '#fbf1c7'
@@ -41,7 +38,7 @@ color_red = '#cc241d'
 color_yellow = '#d79921'
 
 [os]
-disabled = false
+disabled = true
 style = "bg:color_orange fg:color_fg0"
 
 [os.symbols]
@@ -65,33 +62,54 @@ Debian = "󰣚"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
+[memory_usage]
+disabled = false
+threshold = 5
+style = "fg:color_fg0 bg:color_bg3"
+format = '[$ram_pct ]($style)'
+
 [username]
-show_always = true
+show_always = false
 style_user = "bg:color_orange fg:color_fg0"
 style_root = "bg:color_orange fg:color_fg0"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:color_fg0 bg:color_yellow"
-format = "[ $path ]($style)"
+style = "fg:color_fg0 bg:color_orange"
+format = "[$path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
 [directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = "󰝚 "
-"Pictures" = " "
-"Developer" = "󰲋 "
+"~/GithubRepos" = "󰊤 "
+"~/HgRepos" = " "
+"OneDrive - Universität des Saarlandes" = " "
+"~/Downloads" = " "
+"~" = "Home "
 
 [git_branch]
 symbol = ""
 style = "bg:color_aqua"
 format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
 
+[hg_branch]
+disabled = false
+symbol = ""
+style = "bg:color_aqua"
+format = "[ $symbol $branch ](fg:color_fg0 bg:color_aqua)($style)"
+
 [git_status]
 style = "bg:color_aqua"
 format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+
+[cmd_duration]
+disabled = false
+min_time = 1_000
+format = " took [$duration]($style) "
+show_milliseconds = false
+style = "yellow bold"
+show_notifications = false
+min_time_to_notify = 45_000
 
 [nodejs]
 symbol = ""
@@ -100,6 +118,11 @@ format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 
 [c]
 symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[rlang]
+symbol = "R"
 style = "bg:color_blue"
 format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 
@@ -148,7 +171,7 @@ style = "bg:color_bg3"
 format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg3)]($style)'
 
 [time]
-disabled = false
+disabled = true
 time_format = "%R"
 style = "bg:color_bg1"
 format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
