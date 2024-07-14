@@ -6,15 +6,17 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.use_fancy_tab_bar = true
-config.hide_tab_bar_if_only_one_tab = true
-
+config.use_fancy_tab_bar = false
+config.status_update_interval = 1000
+config.tab_bar_at_bottom = false
+config.hide_tab_bar_if_only_one_tab = false
+config.window_decorations = "RESIZE"
 config.default_prog = { "pwsh.exe", "-NoLogo" }
+config.default_workspace = "main"
 
 config.font = wezterm.font("JetBrains Mono")
 config.font_size = 11
---config.color_scheme = "Ciapre"
-config.color_scheme = "Ciapre"
+config.color_scheme = "Monokai Pro Ristretto (Gogh)"
 config.default_cursor_style = "BlinkingUnderline"
 config.cursor_blink_rate = 500
 
@@ -29,7 +31,7 @@ config.background = {
 			File = dotfiles .. "/art/bg5.png",
 		},
 		opacity = 1,
-		hsb = { brightness = 0.20 },
+		hsb = { brightness = 0.10 },
 	},
 }
 
@@ -52,8 +54,8 @@ config.keys = {
 	{ key = "phys:Space", mods = "LEADER",      action = act.ActivateCommandPalette },
 
 	-- Pane keybindings
-	{ key = "s",          mods = "LEADER",      action = act.SplitVertical { domain = "CurrentPaneDomain" } },
-	{ key = "v",          mods = "LEADER",      action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+	{ key = "-",          mods = "LEADER",      action = act.SplitVertical { domain = "CurrentPaneDomain" } },
+	{ key = "\\",         mods = "LEADER",      action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
 	{ key = "h",          mods = "LEADER",      action = act.ActivatePaneDirection("Left") },
 	{ key = "j",          mods = "LEADER",      action = act.ActivatePaneDirection("Down") },
 	{ key = "k",          mods = "LEADER",      action = act.ActivatePaneDirection("Up") },
@@ -62,7 +64,7 @@ config.keys = {
 	{ key = "z",          mods = "LEADER",      action = act.TogglePaneZoomState },
 	{ key = "o",          mods = "LEADER",      action = act.RotatePanes "Clockwise" },
  	{ key = "r",          mods = "LEADER",      action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
- 	{ key = "h",          mods = "LEADER",      action = act.ReloadConfiguration },
+ 	{ key = "=",          mods = "LEADER",      action = act.ReloadConfiguration },
 
 	-- Tab keybindings
 	{ key = "t",          mods = "LEADER",      action = act.SpawnTab("CurrentPaneDomain") },
@@ -88,6 +90,8 @@ config.keys = {
   	{ key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
   	{ key = "[", mods = "LEADER", action = act.MoveTabRelative(-1) },
 	{ key = "]", mods = "LEADER", action = act.MoveTabRelative(1) },
+
+  	{ key = "s", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
 }
 
 -- Add keybindings for switching to tabs 1-9
@@ -119,8 +123,65 @@ config.key_tables = {
   }
 }
 
-config.use_fancy_tab_bar = false
-config.status_update_interval = 1000
-config.tab_bar_at_bottom = false
+wezterm.on("update-status", function(window, pane)
+  	local stat = window:active_workspace()
+  	local stat_color = "#f7768e"
+  	local stat_text = " "
+
+	if window:active_key_table() then
+    	stat = window:active_key_table()
+    	stat_color = "#7dcfff"
+  	end
+  
+	if window:leader_is_active() then
+    	stat = "LDR"
+    	stat_color = "#bb9af7"
+  	end
+
+
+	local basename = function(s)
+		-- Nothing a little regex can't fix
+		return string.gsub(s, "(.*[/\\])(.*)", "%2")
+  	end
+
+	-- Current working directory
+	local cwd = pane:get_current_working_dir()
+	if cwd then
+		if type(cwd) == "userdata" then
+		-- Wezterm introduced the URL object in 20240127-113634-bbcac864
+		cwd = basename(cwd.file_path)
+		else
+		cwd = basename(cwd)
+		end
+	else
+		cwd = ""
+	end
+
+	-- Time
+  	local time = wezterm.strftime("%H:%M")
+	-- Current command
+  	local cmd = pane:get_foreground_process_name()
+  	-- CWD and CMD could be nil
+  	cmd = cmd and basename(cmd) or ""
+
+  	window:set_left_status(wezterm.format({
+		{ Foreground = { Color = stat_color } },
+		{ Text = "  " },
+		{ Text = wezterm.nerdfonts.oct_table .. "  " .. stat },
+		{ Text = " |" },
+  	}))
+
+	window:set_right_status(wezterm.format({
+		{ Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
+		{ Text = " | " },
+		{ Foreground = { Color = "#e0af68" } },
+		{ Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
+		"ResetAttributes",
+		{ Text = " | " },
+		{ Text = wezterm.nerdfonts.md_clock .. "  " .. time },
+		{ Text = "  " },
+  	}))
+
+end)
 
 return config
