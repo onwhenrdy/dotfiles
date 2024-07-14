@@ -6,7 +6,8 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
+config.tab_max_width = 25
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
 config.hide_tab_bar_if_only_one_tab = false
@@ -143,7 +144,6 @@ wezterm.on("update-status", function(window, pane)
 
 
 	local basename = function(s)
-		-- Nothing a little regex can't fix
 		return string.gsub(s, "(.*[/\\])(.*)", "%2")
   	end
 
@@ -151,7 +151,6 @@ wezterm.on("update-status", function(window, pane)
 	local cwd = pane:get_current_working_dir()
 	if cwd then
 		if type(cwd) == "userdata" then
-		-- Wezterm introduced the URL object in 20240127-113634-bbcac864
 		cwd = basename(cwd.file_path)
 		else
 		cwd = basename(cwd)
@@ -161,7 +160,7 @@ wezterm.on("update-status", function(window, pane)
 	end
 
 	-- Time
-  	local time = wezterm.strftime("%H:%M")
+  	local time = wezterm.strftime("%b-%d %H:%M")
 	-- Current command
   	local cmd = pane:get_foreground_process_name()
   	-- CWD and CMD could be nil

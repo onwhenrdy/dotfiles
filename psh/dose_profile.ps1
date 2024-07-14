@@ -4,6 +4,8 @@ Set-Alias vim nvim
 Set-Alias vi nvim
 Set-Alias ll ls
 Set-Alias lg lazygit
+Set-Alias top ntop
+Set-Alias htop ntop
 
 function wt { wezterm start --cwd "." & }
 function renws { 
@@ -12,14 +14,13 @@ function renws {
         [Parameter(Mandatory = $true)]
         [string]$newName
     )
-    
+
     wezterm cli rename-workspace $newName
 } 
 
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }
 
-function shiny { Rscript -e "shiny::runApp()" }
 
 # directory information provider for wezterm
 function Invoke-Starship-PreCommand {

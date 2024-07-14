@@ -27,10 +27,21 @@ winget install --id Starship.Starship
 winget install wez.wezterm
 winget instll fzf
 winget install ajeetdsouza.zoxide
+winget install ntop
 winget install -e --id Microsoft.VisualStudioCode
 winget install -e --id RProject.R -v "4.3.1"
 winget install -e --id RProject.Rtools -v "4.3.5958"
 pip install radian
+# due to UNC bug in 2.1.0
+scoop install watchexec@2.0.0
+winget install --id Casey.Just --exact
+```
+
+## Get Scoop
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
 ## Misc Install
