@@ -6,6 +6,15 @@ Set-Alias ll ls
 Set-Alias lg lazygit
 
 function wt { wezterm start --cwd "." & }
+function renws { 
+
+    Param(
+        [Parameter(Mandatory = $true)]
+        [string]$newName
+    )
+    
+    wezterm cli rename-workspace $newName
+} 
 
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }

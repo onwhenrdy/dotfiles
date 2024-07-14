@@ -64,12 +64,15 @@ config.keys = {
 	{ key = "z",          mods = "LEADER",      action = act.TogglePaneZoomState },
 	{ key = "o",          mods = "LEADER",      action = act.RotatePanes "Clockwise" },
  	{ key = "r",          mods = "LEADER",      action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
- 	{ key = "=",          mods = "LEADER",      action = act.ReloadConfiguration },
+ 	
+	-- Hot reloading
+	{ key = "=",          mods = "LEADER",      action = act.ReloadConfiguration },
 
 	-- Tab keybindings
 	{ key = "t",          mods = "LEADER",      action = act.SpawnTab("CurrentPaneDomain") },
 	{ key = ",",          mods = "LEADER",      action = act.ActivateTabRelative(-1) },
 	{ key = ".",          mods = "LEADER",      action = act.ActivateTabRelative(1) },
+	{ key = "phys:Tab",   mods = "CTRL",        action = act.ActivateTabRelative(1) },
 	{ key = "n",          mods = "LEADER",      action = act.ShowTabNavigator },
 
 	{ key = "e", 		  mods = "LEADER",      action = act.PromptInputLine {
