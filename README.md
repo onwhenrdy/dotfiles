@@ -21,6 +21,7 @@
 winget install -e --id GitHub.cli
 winget install -e --id Git.Git
 winget install -e --id=JesseDuffield.lazygit
+winget install -e onefetch
 winget install Neovim.Neovim
 winget install --id Starship.Starship
 winget install wez.wezterm

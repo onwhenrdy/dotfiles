@@ -13,41 +13,30 @@ config.default_prog = { "pwsh.exe", "-NoLogo" }
 
 config.font = wezterm.font("JetBrains Mono")
 config.font_size = 11
-
-local myColors = wezterm.color.get_default_colors()
-myColors.foreground = "black"
-myColors.split = "#BAB69C"
-myColors.brights = {
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-	"#ffc107",
-}
-myColors.foreground = "#ffffff"
-myColors.cursor_bg = "#ffc107"
-myColors.cursor_border = "#ffc107"
-config.colors = myColors
-
+--config.color_scheme = "Ciapre"
+config.color_scheme = "Ciapre"
 config.default_cursor_style = "BlinkingUnderline"
 config.cursor_blink_rate = 500
 
 -- scrollbar
 config.scrollback_lines = 3000
-config.enable_scroll_bar = true
+config.enable_scroll_bar = false
 
 -- background image
 config.background = {
 	{
 		source = {
-			File = dotfiles .. "/art/bg1.jpg",
+			File = dotfiles .. "/art/bg5.png",
 		},
-		opacity = 0.98,
-		hsb = { brightness = 0.10 },
+		opacity = 1,
+		hsb = { brightness = 0.20 },
 	},
+}
+
+-- Dim inactive panes
+config.inactive_pane_hsb = {
+  saturation = 0.24,
+  brightness = 0.5
 }
 
 -- initial size
@@ -56,55 +45,82 @@ config.initial_cols = 180
 
 -- key bindings
 local act = wezterm.action
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
-	-- Split the current pane horizontally (new pane below)
-	{
-		key = "d",
-		mods = "CTRL",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	{ key = "a",          mods = "LEADER|CTRL", action = act.SendKey { key = "a", mods = "CTRL" } },
+	{ key = "c",          mods = "LEADER",      action = act.ActivateCopyMode },
+	{ key = "phys:Space", mods = "LEADER",      action = act.ActivateCommandPalette },
+
+	-- Pane keybindings
+	{ key = "s",          mods = "LEADER",      action = act.SplitVertical { domain = "CurrentPaneDomain" } },
+	{ key = "v",          mods = "LEADER",      action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+	{ key = "h",          mods = "LEADER",      action = act.ActivatePaneDirection("Left") },
+	{ key = "j",          mods = "LEADER",      action = act.ActivatePaneDirection("Down") },
+	{ key = "k",          mods = "LEADER",      action = act.ActivatePaneDirection("Up") },
+	{ key = "l",          mods = "LEADER",      action = act.ActivatePaneDirection("Right") },
+	{ key = "w",          mods = "LEADER",      action = act.CloseCurrentPane { confirm = true } },
+	{ key = "z",          mods = "LEADER",      action = act.TogglePaneZoomState },
+	{ key = "o",          mods = "LEADER",      action = act.RotatePanes "Clockwise" },
+ 	{ key = "r",          mods = "LEADER",      action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
+ 	{ key = "h",          mods = "LEADER",      action = act.ReloadConfiguration },
+
+	-- Tab keybindings
+	{ key = "t",          mods = "LEADER",      action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = ",",          mods = "LEADER",      action = act.ActivateTabRelative(-1) },
+	{ key = ".",          mods = "LEADER",      action = act.ActivateTabRelative(1) },
+	{ key = "n",          mods = "LEADER",      action = act.ShowTabNavigator },
+
+	{ key = "e", 		  mods = "LEADER",      action = act.PromptInputLine {
+		description = wezterm.format {
+			{ Attribute = { Intensity = "Bold" } },
+			{ Foreground = { AnsiColor = "Fuchsia" } },
+			{ Text = "Renaming Tab Title...:" },
+		},
+		action = wezterm.action_callback(function(window, pane, line)
+			if line then
+			window:active_tab():set_title(line)
+			end
+		end)
+		}
 	},
-	-- Split the current pane vertically (new pane to the right)
-	{
-		key = "d",
-		mods = "ALT",
-		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "d",
-		mods = "CTRL|ALT",
-		action = wezterm.action.Multiple({
-			wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-			wezterm.action.Multiple({
-				wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-			}),
-		}),
-	},
-	-- Close the current pane
-	{
-		key = "w", -- You can change this key to whatever you prefer
-		mods = "CTRL",
-		action = wezterm.action.CloseCurrentPane({ confirm = true }),
-	},
-	{
-		key = "LeftArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "RightArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "UpArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "DownArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Down"),
-	},
+
+	-- Key table for moving tabs around
+  	{ key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
+  	{ key = "[", mods = "LEADER", action = act.MoveTabRelative(-1) },
+	{ key = "]", mods = "LEADER", action = act.MoveTabRelative(1) },
 }
+
+-- Add keybindings for switching to tabs 1-9
+for i = 1, 9 do
+  table.insert(config.keys, {
+    key = tostring(i),
+    mods = "LEADER",
+    action = act.ActivateTab(i - 1)
+  })
+end
+
+-- Key tables
+config.key_tables = {
+  resize_pane = {
+    { key = "h",      action = act.AdjustPaneSize { "Left", 1 } },
+    { key = "j",      action = act.AdjustPaneSize { "Down", 1 } },
+    { key = "k",      action = act.AdjustPaneSize { "Up", 1 } },
+    { key = "l",      action = act.AdjustPaneSize { "Right", 1 } },
+    { key = "Escape", action = "PopKeyTable" },
+    { key = "Enter",  action = "PopKeyTable" },
+  },
+  move_tab = {
+    { key = "h",      action = act.MoveTabRelative(-1) },
+    { key = "j",      action = act.MoveTabRelative(-1) },
+    { key = "k",      action = act.MoveTabRelative(1) },
+    { key = "l",      action = act.MoveTabRelative(1) },
+    { key = "Escape", action = "PopKeyTable" },
+    { key = "Enter",  action = "PopKeyTable" },
+  }
+}
+
+config.use_fancy_tab_bar = false
+config.status_update_interval = 1000
+config.tab_bar_at_bottom = false
 
 return config

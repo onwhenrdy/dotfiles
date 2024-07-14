@@ -10,6 +10,8 @@ function wt { wezterm start --cwd "." & }
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }
 
+function shiny { Rscript -e "shiny::runApp()" }
+
 
 # Starship
 #function Invoke-Starship-TransientFunction {

@@ -19,7 +19,7 @@ $python\
 $memory_usage\
 [](fg:color_bg3 bg:color_bg1)\
 [](color_bg1)\
-$cmd_duration
+$cmd_duration\
 $line_break$character"""
 
 palette = 'gruvbox_dark'
@@ -65,8 +65,9 @@ RedHatEnterprise = "󱄛"
 [memory_usage]
 disabled = false
 threshold = 5
+symbol = "󰍛"
 style = "fg:color_fg0 bg:color_bg3"
-format = '[$ram_pct ]($style)'
+format = '[$symbol $ram_pct ]($style)'
 
 [username]
 show_always = false
