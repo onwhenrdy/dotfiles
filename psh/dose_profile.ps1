@@ -1,8 +1,10 @@
 # Aliases
-Set-Alias tt tree
+Set-Alias tt broot
+Set-Alias tree broot
 Set-Alias vim nvim
 Set-Alias vi nvim
-Set-Alias ll ls
+Set-Alias ll lsd
+Set-Alias ls lsd
 Set-Alias lg lazygit
 Set-Alias top ntop
 Set-Alias htop ntop

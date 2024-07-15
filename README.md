@@ -35,7 +35,9 @@ pip install radian
 # due to UNC bug in 2.1.0
 scoop install watchexec@2.0.0
 winget install --id Casey.Just --exact
-scoop install tokei
+scoop install ripgrep
+scoop install broot
+scoop install lsd
 ```
 
 ## Get Scoop
