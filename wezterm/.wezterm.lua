@@ -11,7 +11,7 @@ if home_dir and home_dir:sub(1, 2):upper() == "D:" then
 	config.prefer_egl = true
 end
 
-config.use_fancy_tab_bar = true
+config.use_fancy_tab_bar = false
 config.tab_max_width = 25
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
@@ -60,32 +60,35 @@ config.keys = {
 	{ key = "phys:Space", mods = "LEADER",      action = act.ActivateCommandPalette },
 
 	-- Pane keybindings
-	{ key = "-",          mods = "LEADER",      action = act.SplitVertical { domain = "CurrentPaneDomain" } },
-	{ key = "\\",         mods = "LEADER",      action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+	{ key = "v",          mods = "LEADER",      action = act.SplitVertical { domain = "CurrentPaneDomain" } },
+	{ key = "s",          mods = "LEADER",      action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
 	{ key = "h",          mods = "LEADER",      action = act.ActivatePaneDirection("Left") },
 	{ key = "j",          mods = "LEADER",      action = act.ActivatePaneDirection("Down") },
 	{ key = "k",          mods = "LEADER",      action = act.ActivatePaneDirection("Up") },
 	{ key = "l",          mods = "LEADER",      action = act.ActivatePaneDirection("Right") },
+	
 	{ key = "w",          mods = "LEADER",      action = act.CloseCurrentPane { confirm = true } },
+	{ key = "q",          mods = "LEADER",      action = act.QuitApplication },
+	
 	{ key = "z",          mods = "LEADER",      action = act.TogglePaneZoomState },
 	{ key = "o",          mods = "LEADER",      action = act.RotatePanes "Clockwise" },
  	{ key = "r",          mods = "LEADER",      action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
  	
 	-- Hot reloading
-	{ key = "=",          mods = "LEADER",      action = act.ReloadConfiguration },
+	{ key = "F11",                              action = act.ReloadConfiguration },
 
 	-- Tab keybindings
 	{ key = "t",          mods = "LEADER",      action = act.SpawnTab("CurrentPaneDomain") },
-	{ key = ",",          mods = "LEADER",      action = act.ActivateTabRelative(-1) },
-	{ key = ".",          mods = "LEADER",      action = act.ActivateTabRelative(1) },
 	{ key = "phys:Tab",   mods = "CTRL",        action = act.ActivateTabRelative(1) },
+	{ key = "`",   	      mods = "CTRL",        action = act.ActivateLastTab },	
 	{ key = "n",          mods = "LEADER",      action = act.ShowTabNavigator },
 
-	{ key = "e", 		  mods = "LEADER",      action = act.PromptInputLine {
+	-- Prompt for a new tab title
+	{ key = "F1", action = act.PromptInputLine {
 		description = wezterm.format {
 			{ Attribute = { Intensity = "Bold" } },
 			{ Foreground = { AnsiColor = "Fuchsia" } },
-			{ Text = "Renaming Tab Title...:" },
+			{ Text = "Rename Tab:" },
 		},
 		action = wezterm.action_callback(function(window, pane, line)
 			if line then
@@ -95,12 +98,57 @@ config.keys = {
 		}
 	},
 
+	-- Prompt for a new workspace name
+	{
+      key = "F2",
+      mods = "NONE",
+      action = act.PromptInputLine {
+        description = wezterm.format {
+          { Attribute = { Intensity = "Bold" } },
+          { Foreground = { AnsiColor = "Fuchsia" } },
+          { Text = "Rename Workspace:" },
+        },
+        action = wezterm.action_callback(function(window, pane, line)
+          if line and line ~= "" then
+            local workspace = wezterm.mux.get_active_workspace()
+            wezterm.mux.rename_workspace(workspace, line)
+          end
+        end)
+      }
+    },
+
 	-- Key table for moving tabs around
   	{ key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
   	{ key = "[", mods = "LEADER", action = act.MoveTabRelative(-1) },
 	{ key = "]", mods = "LEADER", action = act.MoveTabRelative(1) },
 
-  	{ key = "s", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
+  	{ key = "0", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
+	{ key = 'F12',                  action = act.SwitchWorkspaceRelative(1) },
+	-- swtich to next pane
+	{
+        key = "`", mods = "ALT",
+        action = wezterm.action_callback(function(_, pane)
+            local tab = pane:tab()
+            local panes = tab:panes_with_info()
+			local current_index
+			
+			for i, p in ipairs(panes) do
+				if p.is_active then
+					current_index = i
+					break
+				end
+			end
+
+			local next_index = current_index + 1
+            if next_index > #panes then
+                next_index = 1
+            end
+
+            -- Activate the next pane
+            panes[next_index].pane:activate()
+
+        end),
+    },
 }
 
 -- Add keybindings for switching to tabs 1-9
@@ -175,7 +223,7 @@ wezterm.on("update-status", function(window, pane)
 		{ Foreground = { Color = stat_color } },
 		{ Text = "  " },
 		{ Text = wezterm.nerdfonts.oct_table .. "  " .. stat },
-		{ Text = " |" },
+		{ Text = " " },
   	}))
 
 	window:set_right_status(wezterm.format({
