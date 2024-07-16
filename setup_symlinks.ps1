@@ -42,7 +42,15 @@ foreach ($file in $files) {
     $sourcePath = $file.Source
     $destinationPath = $file.Destination
 
+    $destinationDir = Split-Path -Path $destinationPath
+
     try {
+        # Ensure the destination directory exists
+        if (-not (Test-Path -Path $destinationDir)) {
+            New-Item -ItemType Directory -Path $destinationDir -Force
+            Write-Output "Directory created: $destinationDir"
+        }
+
         # Check if the destination file exists and remove it if it does
         if (Test-Path -Path $destinationPath) {
             Remove-Item -Path $destinationPath -Force
@@ -50,10 +58,10 @@ foreach ($file in $files) {
 
         New-Item -ItemType SymbolicLink -Path $destinationPath -Target $sourcePath > $null
 
-        Write-Output "Symbolic link created from '$sourcePath' to '$destinationPath'"
+        Write-Output "Symbolic link created from '$sourcePath' -> '$destinationPath'"
     }
     catch {
-        Write-Output "Failed to create symbolic link from '$sourcePath' to '$destinationPath'. Error: $_"
+        Write-Output "!!! Failed to create symbolic link from '$sourcePath' to '$destinationPath'. Error: $_"
     }
 }
 
@@ -69,3 +77,8 @@ if ($pathArray -notcontains $scriptsPath) {
 else {
     Write-Output "'$scriptsPath' is already in PATH"
 }
+
+# add dotfiles env variable named "DOTFILES" to the user profile with the path to the dotfiles directory
+[System.Environment]::SetEnvironmentVariable('DOTFILES', $scriptLocation, [System.EnvironmentVariableTarget]::User)
+$dotfilesEnvVar = [System.Environment]::GetEnvironmentVariable('DOTFILES', [System.EnvironmentVariableTarget]::User)
+Write-Output "Added 'DOTFILES' environment variable to the user profile with value: $dotfilesEnvVar"
