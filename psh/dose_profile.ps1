@@ -9,6 +9,9 @@ Set-Alias lg lazygit
 Set-Alias top ntop
 Set-Alias htop ntop
 
+function IV-bat-as-cat { bat -pp ${args} }
+Set-Alias cat IV-bat-as-cat
+
 function wt { wezterm start --cwd "." & }
 function renws { 
 

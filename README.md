@@ -38,6 +38,7 @@ winget install --id Casey.Just --exact
 scoop install ripgrep
 scoop install broot
 scoop install lsd
+scoop install bat
 ```
 
 ## Get Scoop
