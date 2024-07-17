@@ -1,13 +1,23 @@
 # Aliases
 Set-Alias tt broot
 Set-Alias tree broot
+
 Set-Alias vim nvim
 Set-Alias vi nvim
+
 Set-Alias ll lsd
 Set-Alias ls lsd
+
 Set-Alias lg lazygit
+
 Set-Alias top ntop
 Set-Alias htop ntop
+
+Set-Alias nano micro
+Set-Alias vis Visidata
+Set-Alias ff fzf
+
+function ffp { fzf --preview "bat --color=always --style=header,grid --line-range :500 {}" }
 
 function IV-bat-as-cat { bat -pp ${args} }
 Set-Alias cat IV-bat-as-cat
@@ -25,7 +35,6 @@ function renws {
 
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }
-
 
 # directory information provider for wezterm
 function Invoke-Starship-PreCommand {

@@ -11,6 +11,7 @@ if home_dir and home_dir:sub(1, 2):upper() == "D:" then
 	config.prefer_egl = true
 end
 
+config.warn_about_missing_glyphs = false
 config.use_fancy_tab_bar = false
 config.tab_max_width = 25
 config.status_update_interval = 1000
@@ -37,14 +38,14 @@ config.background = {
 			File = dotfiles .. "/art/bg5.png",
 		},
 		opacity = 1,
-		hsb = { brightness = 0.10 },
+		hsb = { brightness = 0.06 },
 	},
 }
 
 -- Dim inactive panes
 config.inactive_pane_hsb = {
-  saturation = 0.24,
-  brightness = 0.5
+  saturation = 0.3,
+  brightness = .5
 }
 
 -- initial size

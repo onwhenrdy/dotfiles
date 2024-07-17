@@ -4,123 +4,48 @@
 
 **Oh no, not another dotfiles repo!**
 
-## Setup Scripts
+## Requirements and Limitations
 
-- Setup for the creation of symlinks: `setup_symlinks.ps1`
-
-  - **Caution:** This script will delete existing symlinks/files that already exist.
-  - Adds `scripts` folder to `PATH`.
-
-- Font installation: `install_fonts.ps1`
-  - Installs fonts from the `Fonts` folder for the current user (not system wide).
-  - Does not overwrite existing fonts.
-
-## Install Software
-
-```powershell
-winget install -e --id GitHub.cli
-winget install -e --id Git.Git
-winget install -e --id=JesseDuffield.lazygit
-winget install -e onefetch
-winget install Neovim.Neovim
-winget install --id Starship.Starship
-winget install wez.wezterm
-winget instll fzf
-winget install ajeetdsouza.zoxide
-winget install ntop
-winget install -e --id Microsoft.VisualStudioCode
-winget install -e --id RProject.R -v "4.3.1"
-winget install -e --id RProject.Rtools -v "4.3.5958"
-pip install radian
-# due to UNC bug in 2.1.0
-scoop install watchexec@2.0.0
-winget install --id Casey.Just --exact
-scoop install ripgrep
-scoop install broot
-scoop install lsd
-scoop install bat
-```
-
-## Get Scoop
+1. Does currently only work on Windows.
+2. Requires `scoop` package manager for Windows.
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-## Misc Install
+3. You need `python3`.
 
-```powershell
-# for LaTeX indentlatex
-perl -MCPAN -e"install 'File::HomeDir'"
-perl -MCPAN -e"install 'YAML::Tiny'"
+## Setup
+
+### Setup SymLinks and Environment Variables
+
+```bash
+python3 setup_symlinks.py
 ```
 
-## Update Software
+1. Creates symlinks to the dotfiles
+2. Adds the `scripts` folder to the `PATH` environment variable.
+3. Sets the `DOTFILES` environment variable to the root of the dotfiles folder.
+4. Sets the `R_LIBS_USER` environment variable.
 
-Be careful with `R` updates. Check the version first.
+### Install Fonts
 
-```powershell
-winget upgrade
-winget upgrade APPNAME
-pip install radian --upgrade
+```bash
+python3 install_fonts.py
 ```
 
-## Folders
+This will install fonts from the `fonts` folder for the current `user` (not system-wide).
 
-### art
+### Install Apps
 
-Just pics.
+This will install software with `scoop`.
 
-### git
+```powershell
+install_apps.bat
+```
 
-- My `.gitconfig` file.
-- Must be placed in `~`.
-
-### linter
-
-- My linter settings.
-- Must be placed in `~`.
-
-### nvim
-
-- My neovim settings (single file `init.lua`).
-- Has keybindings for the noevim vscode plugin as well.
-- Must be placed in `~\AppData\Local\nvim`.
-
-### psh (PowerShell)
-
-- `dose_profile.ps1`: Powershell profile settings
-- Must be placed as `~\..\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
-
-### starship
-
-- `starship.toml`: Starship settings
-- Must be placed in `~\.config`.
-
-### radian
-
-- `.radian_profile`: Radian settings
-- Must be placed as `~/.radian_profile`.
-
-### wezterm
-
-- `wezterm.lua`: WezTerm settings
-- Must be placed as `~/wezterm.lua`.
-
-### r
-
-- `.Rprofile`: R settings
-- Must be placed as `~/.Rprofile`.
-- Set env **`R_LIBS_USER = C:/Users/XXX/R/%v`** to have a seprate library for each version!!
-
-### fonts
-
-- `JetBrainsMono`: JetBrains Mono ([Link](https://www.jetbrains.com/lp/mono/))
-- `FiraCode`: Fira Code ([Link](https://github.com/tonsky/FiraCode/))
-- `HackNerdFont`: Hack Nerd Font ([Link](https://www.nerdfonts.com/font-downloads/))
-
-### scripts
+### Scripts
 
 #### `CreateProject.ps1`
 
@@ -129,7 +54,3 @@ Just pics.
 - Must change `$rootDir` settings to your root project directory.
 - Script folder should be in `PATH` (`setup_symlinks.ps1` will handle that).
 - Usage: `CreateProject.ps1 <project-name>`
-
-### vscode
-
-This is just a backup of my vscode settings, keybindings and extensions.
