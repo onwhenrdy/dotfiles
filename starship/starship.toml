@@ -1,7 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](color_orange)\
+[](color_yellow)\
+$os\
+[](bg:color_orange fg:color_yellow)\
 $directory\
 [](fg:color_orange bg:color_aqua)\
 $git_branch\
@@ -14,11 +16,7 @@ $golang\
 $rlang\
 $nodejs\
 $python\
-[](fg:color_blue bg:color_bg3)\
-[](fg:color_bg3 bg:color_bg3)\
-$memory_usage\
-[](fg:color_bg3 bg:color_bg1)\
-[](color_bg1)\
+[](color_blue)\
 $cmd_duration\
 $line_break$character"""
 
@@ -38,12 +36,12 @@ color_red = '#cc241d'
 color_yellow = '#d79921'
 
 [os]
-disabled = true
-style = "bg:color_orange fg:color_fg0"
+disabled = false
+style = "bg:color_yellow fg:color_bg1"
 
 [os.symbols]
-Windows = "󰍲"
-Ubuntu = "󰕈"
+Windows = "ps"
+Ubuntu = "wsl"
 SUSE = ""
 Raspbian = "󰐿"
 Mint = "󰣭"
@@ -63,7 +61,7 @@ Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
 [memory_usage]
-disabled = false
+disabled = true
 threshold = 5
 symbol = "󰍛"
 style = "fg:color_fg0 bg:color_bg3"

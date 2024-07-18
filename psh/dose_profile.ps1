@@ -17,6 +17,11 @@ Set-Alias nano micro
 Set-Alias vis Visidata
 Set-Alias ff fzf
 
+function vd {
+    $unix_args = $args -replace "\\", "/" 
+    wsl visidata $unix_args
+}
+
 function ffp { fzf --preview "bat --color=always --style=header,grid --line-range :500 {}" }
 
 function IV-bat-as-cat { bat -pp ${args} }
