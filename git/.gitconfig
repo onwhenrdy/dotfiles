@@ -10,7 +10,7 @@
 	helper = manager
 [core]
 	longpaths = true
-	autocrlf = true
+	autocrlf = false
 	editor = code --wait
 [diff]
     tool = default-difftool
