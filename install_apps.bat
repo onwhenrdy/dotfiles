@@ -23,6 +23,8 @@ scoop install bat
 scoop install dua
 scoop install tldr
 
+iwr -useb https://raw.githubusercontent.com/sigoden/window-switcher/main/install.ps1 | iex
+
 pip install radian
 pip install visidata
 pip install openpyxl
