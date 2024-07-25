@@ -13,7 +13,6 @@ scoop install main/starship
 scoop install fzf
 scoop install zoxide
 scoop install ntop
-scoop install radian
 sccop install perl
 scoop install extras/wezterm
 scoop install ripgrep
@@ -21,12 +20,10 @@ scoop install broot
 scoop install lsd
 scoop install bat
 scoop install dua
-scoop install tldr
+scoop install unar jq poppler fd yazi
 
 iwr -useb https://raw.githubusercontent.com/sigoden/window-switcher/main/install.ps1 | iex
 
 pip install radian
-pip install visidata
-pip install openpyxl
 perl -MCPAN -e"install 'File::HomeDir'"
 perl -MCPAN -e"install 'YAML::Tiny'"

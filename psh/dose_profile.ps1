@@ -14,29 +14,22 @@ Set-Alias top ntop
 Set-Alias htop ntop
 
 Set-Alias nano micro
-Set-Alias vis Visidata
-Set-Alias ff fzf
 
-function vd {
-    $unix_args = $args -replace "\\", "/" 
-    wsl visidata $unix_args
+
+function yy {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath $cwd
+    }
+    Remove-Item -Path $tmp
 }
-
-function ffp { fzf --preview "bat --color=always --style=header,grid --line-range :500 {}" }
 
 function IV-bat-as-cat { bat -pp ${args} }
 Set-Alias cat IV-bat-as-cat
 
 function wt { wezterm start --cwd "." & }
-function renws { 
-
-    Param(
-        [Parameter(Mandatory = $true)]
-        [string]$newName
-    )
-
-    wezterm cli rename-workspace $newName
-} 
 
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }

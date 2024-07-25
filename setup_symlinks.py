@@ -177,6 +177,17 @@ try:
     print(f"  {bc.OKGREEN}Success{bc.END}")
 except Exception as e:
     print(f"{bc.FAIL}  Failed with Error:{bc.END} {e}")
+
+
+# -- Set YAZI_FILE_ONE environment variable ------------------------------------------
+print("")
+print(f"{bc.HEADER}{bc.BOLD}Setting YAZI_FILE_ONE environment variable...{bc.END}")
+try:
+    file_exe_git = home_path("scoop/apps/git/current/usr/bin/file.exe")
+    w_set_env_var("YAZI_FILE_ONE", file_exe_git)
+    print(f"  {bc.OKGREEN}Success{bc.END}")
+except Exception as e:
+    print(f"{bc.FAIL}  Failed with Error:{bc.END} {e}")
     
 # -- Adding scripts to PATH -----------------------------------------------------
 print("")
