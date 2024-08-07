@@ -1,0 +1,2 @@
+select vdisk file="%localAppData%\Docker\wsl\disk\docker_data.vhdx"
+compact vdisk

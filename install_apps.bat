@@ -19,6 +19,7 @@ scoop install broot & ^
 scoop install lsd & ^
 scoop install bat & ^
 scoop install dua & ^
+scoop install dos2unix & ^
 scoop install unar jq poppler fd yazi & ^
 perl -MCPAN -e"install 'File::HomeDir'" & ^
 perl -MCPAN -e"install 'YAML::Tiny'" & ^

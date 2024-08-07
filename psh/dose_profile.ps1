@@ -15,6 +15,10 @@ Set-Alias htop ntop
 
 Set-Alias nano micro
 
+rm alias:\r
+
+function sudowez { Start-Process wezterm -Verb runas }
+
 
 function yy {
     $tmp = [System.IO.Path]::GetTempFileName()
@@ -30,6 +34,8 @@ function IV-bat-as-cat { bat -pp ${args} }
 Set-Alias cat IV-bat-as-cat
 
 function wt { wezterm start --cwd "." & }
+
+function d2u { Get-ChildItem -Recurse -File | ForEach-Object { dos2unix $_.FullName -S -s -e -q } }
 
 function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
 function killc { conda deactivate }
