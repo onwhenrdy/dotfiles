@@ -124,7 +124,7 @@ local bookmark = {
 
 local file = {
   find = function()
-    vscall("workbench.action.quickOpen")
+    vscall("find-it-faster.findFiles")
   end,
   new = function()
     vscall("workbench.explorer.fileView.focus")
@@ -178,7 +178,7 @@ local search = {
     vscall("workbench.action.findInFiles")
   end,
   text = function()
-    vscall("workbench.action.findInFiles")
+    vscall("find-it-faster.findWithinFiles")
   end,
 }
 
@@ -282,7 +282,7 @@ if vim.g.vscode then
 
   keymap({ 'n' }, "<leader>sr", search.reference)
   keymap({ 'n' }, "<leader>sp", search.project)
-  keymap({ 'n' }, "<leader>st", search.text)
+  keymap({ 'n' }, "<leader>ss", search.text)
 
   keymap({ 'n' }, "<leader>zz", fold.toggle)
   keymap({ 'n' }, "<leader>za", fold.all)
