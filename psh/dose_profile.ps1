@@ -19,6 +19,10 @@ rm alias:\r
 
 function sudowez { Start-Process wezterm -Verb runas }
 
+# for pthon virtual environments
+function venv {
+    . .\.venv\Scripts\Activate.ps1
+}
 
 function yy {
     $tmp = [System.IO.Path]::GetTempFileName()

@@ -35,21 +35,3 @@ options(
 
 # do not ask for saving workspace
 formals(q)$save <- formals(q)$save <- "no"
-
-# promt
-if (interactive()) {
-  local({
-    .p <- function(expr, value, ok, visible) {
-      path <- getwd() |> basename()
-      p <- paste0("../", path, " ") |> cli::col_grey()
-
-      if (ok) {
-        p |> paste0(cli::col_green(cli::symbol$pointer, " "))
-      } else {
-        p |> paste0(cli::col_red(cli::symbol$pointer, " "))
-      }
-    }
-
-    prompt::set_prompt(.p)
-  })
-}
