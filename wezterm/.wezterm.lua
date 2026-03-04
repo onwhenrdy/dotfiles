@@ -16,6 +16,7 @@ config.use_fancy_tab_bar = false
 config.tab_max_width = 25
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
+config.enable_kitty_keyboard = true
 config.hide_tab_bar_if_only_one_tab = false
 config.window_decorations = "RESIZE"
 config.default_prog = { "pwsh.exe", "-NoLogo" }

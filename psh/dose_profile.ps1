@@ -1,3 +1,7 @@
+# Environment Variables
+$env:EDITOR = "code --wait"
+$env:ANTHROPIC_MODEL = "claude-opus-4-5-20251101"
+
 # Aliases
 Set-Alias tt broot
 Set-Alias tree broot
@@ -14,6 +18,10 @@ Set-Alias top ntop
 Set-Alias htop ntop
 
 Set-Alias nano micro
+
+Set-Alias cc claude
+
+function ccd { claude --dangerously-skip-permissions $args }
 
 rm alias:\r
 
