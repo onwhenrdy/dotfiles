@@ -14,7 +14,8 @@ Ubuntu = "🐧"
 
 [directory]
 style = "bold lavender"
-truncation_length = 4
+truncation_length = 3
+truncation_symbol = "…/"
 truncate_to_repo = false
 format = "[ $path ]($style)"
 

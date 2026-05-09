@@ -8,8 +8,10 @@ Set-Alias tree broot
 Set-Alias vim nvim
 Set-Alias vi nvim
 
-Set-Alias ll lsd
-Set-Alias ls lsd
+# eza: render icons when stdout is a TTY, plain when piped
+$env:EZA_ICONS_AUTO = "1"
+Set-Alias ls eza
+function ll { eza -l --git @args }
 
 Set-Alias lg lazygit
 
