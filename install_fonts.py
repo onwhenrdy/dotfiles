@@ -50,17 +50,15 @@ n_new_fonts = 0
 n_existing_fonts = 0
 
 print(f"{bc.HEADER}{bc.BOLD}Installing Fonts...{bc.END}")
-try:
-    for font_file in font_files:
-        existing_font = list(Path(FONT_DIR).glob(font_file.name))
-        if not existing_font:
+for font_file in font_files:
+    try:
+        if not (Path(FONT_DIR) / font_file.name).exists():
             shutil.copy(font_file, FONT_DIR)
             n_new_fonts += 1
         else:
             n_existing_fonts += 1
+    except Exception as e:
+        print(f"{bc.FAIL}  Failed to install {font_file.name}: {e}{bc.END}")
 
-    print(f"{bc.OKGREEN}  Fonts installed: {n_new_fonts}{bc.END}")
-    print(f"{bc.OKGREEN}  Fonts already installed: {n_existing_fonts}{bc.END}")
-
-except Exception as e:
-    print(f"{bc.FAIL}{bc.BOLD}Error: {e}{bc.END}")
+print(f"{bc.OKGREEN}  Fonts installed: {n_new_fonts}{bc.END}")
+print(f"{bc.OKGREEN}  Fonts already installed: {n_existing_fonts}{bc.END}")

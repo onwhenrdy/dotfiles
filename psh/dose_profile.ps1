@@ -1,6 +1,5 @@
 # Environment Variables
 $env:EDITOR = "code --wait"
-$env:ANTHROPIC_MODEL = "claude-opus-4-5-20251101"
 
 # Aliases
 Set-Alias tt broot
@@ -19,17 +18,20 @@ Set-Alias htop ntop
 
 Set-Alias nano micro
 
-Set-Alias cc claude
-
 function ccd { claude --dangerously-skip-permissions $args }
 
-rm alias:\r
+# remove default `r` alias (Invoke-History) so it can launch R/radian
+Remove-Item alias:\r -ErrorAction SilentlyContinue
 
 function sudowez { Start-Process wezterm -Verb runas }
 
-# for pthon virtual environments
+# for python virtual environments
 function venv {
-    . .\.venv\Scripts\Activate.ps1
+    if (Test-Path .\.venv\Scripts\Activate.ps1) {
+        . .\.venv\Scripts\Activate.ps1
+    } else {
+        Write-Host "No .venv in current directory" -ForegroundColor Yellow
+    }
 }
 
 function yy {
@@ -45,12 +47,9 @@ function yy {
 function IV-bat-as-cat { bat -pp ${args} }
 Set-Alias cat IV-bat-as-cat
 
-function wt { wezterm start --cwd "." & }
+function wez { wezterm start --cwd "." & }
 
-function d2u { Get-ChildItem -Recurse -File | ForEach-Object { dos2unix $_.FullName -S -s -e -q } }
-
-function usec { conda "shell.powershell" "hook" | Out-String | Invoke-Expression }
-function killc { conda deactivate }
+function d2u { Get-ChildItem -Recurse -File | ForEach-Object { dos2unix $_.FullName -e -q } }
 
 # directory information provider for wezterm
 function Invoke-Starship-PreCommand {
@@ -70,4 +69,11 @@ Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 
 # Predictions
 Set-PSReadLineOption -PredictionViewStyle ListView
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin  
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+
+# PSFzf — Ctrl-T file search, Ctrl-R history search (requires `Install-Module PSFzf`)
+if (Get-Module -ListAvailable -Name PSFzf) {
+    Import-Module PSFzf
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+}
+

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+
+# R
+.RData
+.Rhistory
+.Rapp.history
+.Ruserdata
+*.Rproj.user/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS / Linux noise (in case repo is browsed elsewhere)
+.DS_Store
+
+# Editors / IDEs
+.idea/
+*.swp
+*.swo
+*~
+
+# Local-only overrides
+*.local
+.env
+.env.local

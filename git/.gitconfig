@@ -27,3 +27,5 @@
 	insteadOf = git@github.com:
 [credential "helperselector"]
 	selected = manager
+[pull]
+	rebase = true

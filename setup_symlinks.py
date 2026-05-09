@@ -1,5 +1,6 @@
 import os
 import platform
+from datetime import datetime
 
 print(r"""
   ____           _____     _____                 _ _       _        
@@ -54,6 +55,10 @@ def w_local_appdata_path(file):
     file = file.replace("/", SYS_SEP)
     return os.path.join(os.getenv('LOCALAPPDATA'), file)
 
+def w_appdata_path(file):
+    file = file.replace("/", SYS_SEP)
+    return os.path.join(os.getenv('APPDATA'), file)
+
 def w_documents_path(file):
     file = file.replace("/", SYS_SEP)
     CSIDL_PERSONAL = 5       # My Documents
@@ -65,7 +70,7 @@ def w_documents_path(file):
     return os.path.join(doc_path, file)
 
 def w_set_env_var(var_name, var_value):
-    os.system(f"SETX {var_name} {var_value} > NUL", )
+    os.system(f'SETX {var_name} "{var_value}" > NUL')
     
 def w_add_to_path(path):
     # https://stackoverflow.com/questions/63782773/how-to-modify-windows-10-path-variable-directly-from-a-python-script
@@ -109,7 +114,7 @@ files = [
     },
     {
         "name": "R Profile",
-        "src": "r/.Rprofile",
+        "src": "R/.Rprofile",
         "w_des": home_path(".Rprofile")
     },
     {
@@ -141,6 +146,21 @@ files = [
         "name": "Micro",
         "src": "micro/settings.json",
         "w_des": home_path(".config/micro/settings.json")
+    },
+    {
+        "name": "Tabby",
+        "src": "tabby/config.yaml",
+        "w_des": home_path("scoop/persist/tabby/data/config.yaml")
+    },
+    {
+        "name": "Lazygit",
+        "src": "lazygit/config.yml",
+        "w_des": w_appdata_path("lazygit/config.yml")
+    },
+    {
+        "name": "Bat",
+        "src": "bat/config",
+        "w_des": w_appdata_path("bat/config")
     }
 ]
 
@@ -150,9 +170,15 @@ for file in files:
     des_dir = os.path.dirname(des_path)
     
     try:
-        os.makedirs(des_dir, exist_ok = True)    
-        if os.path.exists(des_path):
-            os.remove(des_path)
+        os.makedirs(des_dir, exist_ok = True)
+        if os.path.lexists(des_path):
+            if os.path.islink(des_path):
+                os.remove(des_path)
+            else:
+                # Real file already at target — back it up before replacing
+                backup = f"{des_path}.bak.{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+                os.rename(des_path, backup)
+                print(f"  {bc.WARNING}backed up existing -> {backup}{bc.END}")
         os.symlink(src_path, des_path)
         print(f"  {bc.BOLD}{file['name']}{bc.END} -> {bc.OKGREEN}{des_path}{bc.END}")
 
