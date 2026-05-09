@@ -62,14 +62,30 @@ function Invoke-Starship-PreCommand {
     $host.ui.Write($prompt)
 }
 
-Invoke-Expression (&starship init powershell)
+# Starship — cache `init` output so we don't spawn the exe every shell start.
+# Rebuilds when starship.exe is newer than the cache (i.e. after an upgrade).
+$starshipCache = "$env:LOCALAPPDATA\starship\init.ps1"
+$starshipExe = (Get-Command starship -ErrorAction SilentlyContinue).Source
+if ($starshipExe -and (-not (Test-Path $starshipCache) -or (Get-Item $starshipExe).LastWriteTime -gt (Get-Item $starshipCache).LastWriteTime)) {
+    New-Item -ItemType Directory -Force -Path (Split-Path $starshipCache) | Out-Null
+    starship init powershell --print-full-init | Out-File $starshipCache -Encoding utf8
+}
+if (Test-Path $starshipCache) { . $starshipCache }
 
-# Zoxide
-Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
+# Zoxide — same caching pattern
+$zoxideCache = "$env:LOCALAPPDATA\zoxide\init.ps1"
+$zoxideExe = (Get-Command zoxide -ErrorAction SilentlyContinue).Source
+if ($zoxideExe -and (-not (Test-Path $zoxideCache) -or (Get-Item $zoxideExe).LastWriteTime -gt (Get-Item $zoxideCache).LastWriteTime)) {
+    New-Item -ItemType Directory -Force -Path (Split-Path $zoxideCache) | Out-Null
+    zoxide init --cmd cd powershell | Out-File $zoxideCache -Encoding utf8
+}
+if (Test-Path $zoxideCache) { . $zoxideCache }
 
-# Predictions
-Set-PSReadLineOption -PredictionViewStyle ListView
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+# Predictions — only when running interactively in a real terminal
+if (-not [Console]::IsOutputRedirected -and $Host.Name -eq 'ConsoleHost') {
+    Set-PSReadLineOption -PredictionViewStyle ListView
+    Set-PSReadLineOption -PredictionSource History
+}
 
 # PSFzf — Ctrl-T file search, Ctrl-R history search (requires `Install-Module PSFzf`)
 if (Get-Module -ListAvailable -Name PSFzf) {

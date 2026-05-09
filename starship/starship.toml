@@ -2,40 +2,31 @@
 add_newline = true
 palette = "catppuccin_mocha"
 
-command_timeout = 1500
+# Single-line compact: 🤖  ~/dotfiles    main  ❯
+format = """$os$directory$git_branch$character"""
 
-[git_status]
-disabled = true
+[os]
+disabled = false
+format = "[$symbol]($style) "
+[os.symbols]
+Windows = "🤖"
+Ubuntu = "🐧"
+
+[directory]
+style = "bold lavender"
+truncation_length = 4
+truncate_to_repo = false
+format = "[ $path ]($style)"
+
+[git_branch]
+symbol = " "
+style = "bold mauve"
+format = "[$symbol$branch ]($style)"
 
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
 vimcmd_symbol = "[❮](bold yellow)"
-
-[directory]
-truncation_length = 4
-style = "bold lavender"
-
-[line_break]
-disabled = false
-
-[username]
-style_user = "bold green"
-style_root = "bold mauve"
-show_always = true
-format = "[$user]($style) "
-
-[hostname]
-ssh_only = false
-format = "on [$hostname](bold maroon) "
-
-[os.symbols]
-Windows = "🤖 "
-Ubuntu = "🐧 "
-
-[os]
-format = "[$symbol]($style)"
-disabled = false
 
 
 [palettes.catppuccin_mocha]
